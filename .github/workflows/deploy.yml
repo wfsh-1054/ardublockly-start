@@ -1,0 +1,33 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 監聽 main 分支的推行
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 獲取完整歷史記錄，確保 git 資訊完整
+
+      - name: Diagnostic
+        run: |
+          ls -F
+          git status || echo "No git repo detected"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .  # 改為 . 試試
+          publish_branch: gh-pages
+          force_orphan: true
+          # 排除不必要的檔案
+          exclude_assets: 'build_installer*,Setup.exe' # 移除 .git* 排除，交由 action 自行處理

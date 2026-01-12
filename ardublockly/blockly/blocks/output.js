@@ -1,0 +1,329 @@
+/**
+ * @license Licensed under the Apache License, Version 2.0 (the "License"):
+ *          https://www.apache.org/licenses/LICENSE-2.0
+ */
+
+/**
+ * @fileOverview Blocks for Arduino Digital and Analogue input and output
+ *     functions. The Arduino function syntax can be found at
+ *     https://arduino.cc/en/Reference/HomePage
+ */
+'use strict';
+
+goog.provide('Blockly.Blocks.output');
+
+goog.require('Blockly.Blocks');
+goog.require('Blockly.Types');
+
+/** Common HSV hue for all blocks in this category. */
+Blockly.Blocks.output.HUE = 260;
+
+Blockly.Blocks['io_output'] = {
+    /**
+     * Block for creating a 'set Pin' to a state.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_PIN)
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), 'PIN')
+            .appendField(Blockly.Msg.ARD_SET_OUTPUT);
+        this.setInputsInline(false);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip(Blockly.Msg.ARD_SET_OUTPUT_TIP);
+        this.setHelpUrl('https://www.arduino.cc/reference/en/language/functions/digital-io/pinmode/');
+    }, /**
+     * Updates the content of the the Pin related fields.
+     * @this Blockly.Block
+     */
+    updateFields: function () {
+        Blockly.Arduino.Boards.refreshBlockFieldDropdown(this, 'PIN', 'digitalPins');
+    }
+};
+
+Blockly.Blocks['io_output_var'] = {
+    /**
+     * Block for creating a 'set Pin' to a state.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.appendValueInput('PIN')
+            .appendField(Blockly.Msg.ARD_PIN);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_SET_OUTPUT);
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip(Blockly.Msg.ARD_SET_OUTPUT_TIP);
+        this.setHelpUrl('https://www.arduino.cc/reference/en/language/functions/digital-io/pinmode/');
+    }
+};
+
+Blockly.Blocks['io_digitalwrite'] = {
+    /**
+     * Block for creating a 'set Pin' to a state.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.setHelpUrl('https://arduino.cc/en/Reference/DigitalWrite');
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.appendValueInput('STATE')
+            .appendField(Blockly.Msg.ARD_DIGITALWRITE)
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), 'PIN')
+            .appendField(Blockly.Msg.ARD_WRITE_TO)
+            .setCheck(Blockly.Types.BOOLEAN.checkList);
+        this.setInputsInline(false);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip(Blockly.Msg.ARD_DIGITALWRITE_TIP);
+    }, /**
+     * Updates the content of the the Pin related fields.
+     * @this Blockly.Block
+     */
+    updateFields: function () {
+        Blockly.Arduino.Boards.refreshBlockFieldDropdown(this, 'PIN', 'digitalPins');
+    }
+};
+
+Blockly.Blocks['io_digitalwrite_var'] = {
+    /**
+     * Block for creating a 'set Pin' to a state.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.setHelpUrl('https://arduino.cc/en/Reference/DigitalWrite');
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_DIGITALWRITE);
+        this.appendValueInput('PIN');
+        this.appendValueInput('STATE')
+            .appendField(Blockly.Msg.ARD_WRITE_TO)
+            .setCheck(Blockly.Types.BOOLEAN.checkList);
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip(Blockly.Msg.ARD_DIGITALWRITE_TIP);
+    }
+};
+
+Blockly.Blocks['io_analogwrite'] = {
+    /**
+     * Block for creating a 'set Pin' to an analogue value.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.setHelpUrl('https://arduino.cc/en/Reference/AnalogWrite');
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.appendValueInput('NUM')
+            .appendField(Blockly.Msg.ARD_ANALOGWRITE)
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.pwmPins), 'PIN')
+            .appendField(Blockly.Msg.ARD_WRITE_TO)
+            //.appendField(new Blockly.FieldTextInput("100"), "DEFNUM")
+            .setCheck(Blockly.Types.NUMBER.checkList);
+        this.setInputsInline(false);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip(Blockly.Msg.ARD_ANALOGWRITE_TIP);
+    }, /**
+     * Updates the content of the the Pin related fields.
+     * @this Blockly.Block
+     */
+    updateFields: function () {
+        Blockly.Arduino.Boards.refreshBlockFieldDropdown(this, 'PIN', 'pwmPins');
+    }, /** @return {!string} The type of input value for the block, an integer. */
+    getBlockType: function () {
+        return Blockly.Types.NUMBER;
+    }
+};
+
+
+Blockly.Blocks['io_analogwrite_var'] = {
+    /**
+     * Block for creating a 'set Pin' to an analogue value.
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.setHelpUrl('https://arduino.cc/en/Reference/AnalogWrite');
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_ANALOGWRITE);
+        this.appendValueInput('PIN');
+        this.appendValueInput('NUM')
+            .appendField(Blockly.Msg.ARD_WRITE_TO)
+            .setCheck(Blockly.Types.NUMBER.checkList);
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip(Blockly.Msg.ARD_ANALOGWRITE_TIP);
+    }, /** @return {!string} The type of input value for the block, an integer. */
+    getBlockType: function () {
+        return Blockly.Types.NUMBER;
+    }
+};
+
+var note = [["0", "0"], ["C", "C"], ["CS", "CS"], ["D", "D"], ["DS", "DS"], ["E", "E"], ["F", "F"], ["G", "G"], ["GS", "GS"], ["A", "A"], ["AS", "AS"], ["B", "B"]];
+
+var tone = [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"]];
+
+var tempo = [["1", "1"], ["2", "2"], ["4", "4"], ["8", "8"], ["16", "16"]];
+
+Blockly.Blocks['io_tone'] = {
+    /**
+     * Block for
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_SETTONE)
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "TONEPIN");
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_NOTE)
+            .appendField(new Blockly.FieldDropdown(note), "NOTE")
+            .appendField(Blockly.Msg.ARD_TONE_PITCH)
+            .appendField(new Blockly.FieldDropdown(tone), "TONE")
+        this.appendValueInput("TIME")
+            .setCheck(Blockly.Types.NUMBER.checkList)
+            .appendField(Blockly.Msg.ARD_TIME_MS);
+        this.setInputsInline(true);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.setTooltip(Blockly.Msg.ARD_TONE_TIP);
+        this.setHelpUrl('https://www.arduino.cc/en/Reference/tone');
+    }
+};
+
+Blockly.Blocks['io_tone_var'] = {
+    /**
+     * Block for
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_SETTONE)
+            .appendField(Blockly.Msg.ARD_TONE_USE)
+            .appendField(new Blockly.FieldVariable("buzzer"), "TONEPIN")
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_NOTE)
+            .appendField(new Blockly.FieldDropdown(note), "NOTE")
+            .appendField(Blockly.Msg.ARD_TONE_PITCH)
+            .appendField(new Blockly.FieldDropdown(tone), "TONE")
+        this.appendValueInput("TIME")
+            .setCheck(Blockly.Types.NUMBER.checkList)
+            .appendField(Blockly.Msg.ARD_TIME_MS);
+        this.setInputsInline(true);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.setTooltip(Blockly.Msg.ARD_TONE_TIP);
+        this.setHelpUrl('https://www.arduino.cc/en/Reference/tone');
+    }
+};
+
+Blockly.Blocks['io_notone'] = {
+    /**
+     * Block for
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_NOTONE)
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "TONEPIN");
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.setTooltip(Blockly.Msg.ARD_NOTONE_TIP);
+        this.setHelpUrl('https://www.arduino.cc/en/Reference/noTone');
+    }
+};
+
+Blockly.Blocks['io_notone_var'] = {
+    /**
+     * Block for
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_NOTONE)
+            .appendField(Blockly.Msg.ARD_TONE_USE)
+            .appendField(new Blockly.FieldVariable("buzzer"), "TONEPIN")
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.setTooltip(Blockly.Msg.ARD_NOTONE_TIP);
+        this.setHelpUrl('https://www.arduino.cc/en/Reference/noTone');
+    }
+};
+
+Blockly.Blocks['io_play_tone'] = {
+    /**
+     * Block for
+     * @this Blockly.Block
+     */
+    init: function () {
+        var validator = function (newValue) {
+            if (isNaN(newValue)) {
+                return 120;
+            } else {
+                if (newValue < 1) return 1;
+                if (newValue > 240) return 240;
+            }
+        }
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_TONE_USE)
+            .appendField(new Blockly.FieldVariable("buzzer"), "TONEPIN")
+            .appendField(Blockly.Msg.ARD_TONE_PLAY)
+            .appendField(new Blockly.FieldNumber(120, validator), "SPEED");
+        this.appendStatementInput("BUZZER_PLAY")
+            .setCheck(['io_single_tone', 'io_multi_tone']);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.setTooltip(Blockly.Msg.ARD_TONE_TIP);
+        this.setHelpUrl("");
+    }
+};
+
+Blockly.Blocks['io_single_tone'] = {
+    /**
+     * Block for
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.ARD_NOTE)
+            .appendField(new Blockly.FieldDropdown(note), "NOTE")
+            .appendField(Blockly.Msg.ARD_TONE_PITCH)
+            .appendField(new Blockly.FieldDropdown(tone), "TONE")
+            .appendField(Blockly.Msg.ARD_TEMPO)
+            .appendField(new Blockly.FieldDropdown(tempo), "TEMPO");
+        this.setPreviousStatement(true, ['io_single_tone', 'io_multi_tone']);
+        this.setNextStatement(true, ['io_single_tone', 'io_multi_tone']);
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.setTooltip(Blockly.Msg.ARD_TONE_TIP);
+        this.setHelpUrl('https://docs.arduino.cc/built-in-examples/digital/toneMelody');
+    }
+};
+
+Blockly.Blocks['io_multi_tone'] = {
+    /**
+     * Block for
+     * @this Blockly.Block
+     */
+    init: function () {
+        this.appendValueInput("NOTE_TONE")
+            .setCheck(Blockly.Types.STRING.checkList)
+            .appendField(Blockly.Msg.ARD_NOTE + " " + Blockly.Msg.ARD_TONE);
+        this.appendValueInput("TEMPO")
+            .setCheck(Blockly.Types.STRING.checkList)
+            .appendField(Blockly.Msg.ARD_TEMPO);
+        this.setPreviousStatement(true, ['io_single_tone', 'io_multi_tone']);
+        this.setNextStatement(true, ['io_single_tone', 'io_multi_tone']);
+        this.setColour(Blockly.Blocks.output.HUE);
+        this.setTooltip(Blockly.Msg.ARD_TONE_TIP);
+        this.setHelpUrl('buzzer-piano/index.html');
+    }
+};

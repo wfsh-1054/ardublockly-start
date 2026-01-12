@@ -1,0 +1,23 @@
+# Compiled installers
+Output/
+*.exe
+# Keep drivers if needed, but exclude other exes if any
+!drivers/**/*.exe
+
+# Large Binary Dependencies (Electron & Arduino IDE)
+# These should be downloaded via a setup script instead of stored in git
+ardublockly/arduexec/
+ardublockly/arduino/
+
+# Temporary files and logs
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+*.pyc
+__pycache__/
+
+# Mac specific
+.AppleDouble
+.LSOverride
