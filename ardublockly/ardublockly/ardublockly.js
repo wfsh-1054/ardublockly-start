@@ -21,8 +21,11 @@ Ardublockly.init = function () {
     // Inject Blockly into content_blocks and fetch additional blocks
     Ardublockly.injectBlockly(document.getElementById('content_blocks'),
         Ardublockly.TOOLBOX_XML, '../blockly/');
-    Ardublockly.importExtraBlocks();
-    Ardublockly.addExtraCategories();
+
+    if (document.location.hostname === 'localhost' || document.location.hostname === '127.0.0.1') {
+        Ardublockly.importExtraBlocks();
+        Ardublockly.addExtraCategories();
+    }
 
     Ardublockly.designJsInit();
 
@@ -235,7 +238,7 @@ Ardublockly.serialRun = function () {
         var Readline = require('@electron/remote').require('@serialport/parser-readline');
         var SerialPort = require('@electron/remote').require("serialport");
         var parser = new Readline();
-        var arduinoport = new SerialPort(serialValue, {baudRate: baudRateValue}).setEncoding('utf8');
+        var arduinoport = new SerialPort(serialValue, { baudRate: baudRateValue }).setEncoding('utf8');
         arduinoport.on("open", (err) => {
             console.log('serial port open'); //成功連接時印出port open
             if (err) {
@@ -533,7 +536,7 @@ Ardublockly.saveSketchFile = function () {
  * @param {!string} content Text data to be saved in to the file.
  */
 Ardublockly.saveTextFileAs = function (fileName, ext, content) {
-    var blob = new Blob([content], {type: 'text/' + ext + ';charset=utf-8'});
+    var blob = new Blob([content], { type: 'text/' + ext + ';charset=utf-8' });
     saveAs(blob, fileName);
 };
 
@@ -1485,14 +1488,14 @@ Ardublockly.getBroswer = function () {
                         (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
                             (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
 
-    if (Sys.edge) return {broswer: "Edge", version: Sys.edge};
-    if (Sys.ie) return {broswer: "IE", version: Sys.ie};
-    if (Sys.firefox) return {broswer: "Firefox", version: Sys.firefox};
-    if (Sys.chrome) return {broswer: "Chrome", version: Sys.chrome};
-    if (Sys.opera) return {broswer: "Opera", version: Sys.opera};
-    if (Sys.safari) return {broswer: "Safari", version: Sys.safari};
+    if (Sys.edge) return { broswer: "Edge", version: Sys.edge };
+    if (Sys.ie) return { broswer: "IE", version: Sys.ie };
+    if (Sys.firefox) return { broswer: "Firefox", version: Sys.firefox };
+    if (Sys.chrome) return { broswer: "Chrome", version: Sys.chrome };
+    if (Sys.opera) return { broswer: "Opera", version: Sys.opera };
+    if (Sys.safari) return { broswer: "Safari", version: Sys.safari };
 
-    return {broswer: "", version: "0"};
+    return { broswer: "", version: "0" };
 }
 
 //Add by darrin - 20211121 -end
